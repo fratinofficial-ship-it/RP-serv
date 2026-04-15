@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KYIV RP Rules</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Exo 2',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.25), transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(96,165,250,0.2), transparent 45%),
+                radial-gradient(circle at 50% 80%, rgba(37,99,235,0.2), transparent 50%),
+                linear-gradient(180deg, #020617, #000);
+    color:white;
+}
+
+.topbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:75px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,10,30,0.6);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(59,130,246,0.3);
+    z-index:100;
+}
+
+.title{
+    padding:8px 18px;
+    border-radius:14px;
+    background:rgba(59,130,246,0.08);
+    border:1px solid rgba(59,130,246,0.4);
+    color:#60a5fa;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-shadow:0 0 18px rgba(59,130,246,0.9);
+}
+
+.container{
+    padding-top:110px;
+    width:100%;
+    max-width:1600px;
+    margin:auto;
+    padding-left:40px;
+    padding-right:40px;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+}
+
+button{
+    padding:42px;
+    border-radius:18px;
+    border:1px solid rgba(96,165,250,0.35);
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    color:#93c5fd;
+    font-size:24px;
+    font-weight:700;
+    cursor:pointer;
+    transition:0.25s;
+    box-shadow:0 0 10px rgba(59,130,246,0.25);
+    width:100%;
+}
+
+button:hover{
+    transform:translateY(-4px) scale(1.03);
+    box-shadow:0 0 25px rgba(59,130,246,0.8);
+    color:white;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.7);
+    z-index:200;
+}
+
+.modal-content{
+    width:520px;
+    max-width:90vw;
+    max-height:85vh;
+    overflow-y:auto;
+    padding:60px 40px 40px 40px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(59,130,246,0.4);
+    box-shadow:0 0 50px rgba(59,130,246,0.7);
+    position:relative;
+
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+}
+
+.modal-content::-webkit-scrollbar{
+    width:0;
+    height:0;
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:34px;
+    height:34px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.2s;
+}
+
+.close:hover{
+    background:rgba(59,130,246,0.2);
+    transform:scale(1.1);
+}
+
+.rule{
+    margin:16px 0;
+    padding:28px 24px 28px 28px;
+    border-radius:16px;
+    background:rgba(59,130,246,0.06);
+    border:1px solid rgba(59,130,246,0.35);
+    box-shadow:0 0 18px rgba(59,130,246,0.25);
+    font-weight:600;
+    font-size:20px;
+    line-height:1.4;
+    position:relative;
+}
+
+.rule:hover{
+    border-color:rgba(59,130,246,0.8);
+    box-shadow:0 0 25px rgba(59,130,246,0.5);
+    transform:translateY(-2px);
+    transition:0.2s;
+}
+
+.rule-id{
+    font-weight:800;
+    color:#60a5fa;
+    margin-right:10px;
+    text-shadow:0 0 10px rgba(59,130,246,0.4);
+}
+
+.rule-id{
+    display:inline-block;
+    padding:4px 10px;
+    margin-right:10px;
+    border-radius:10px;
+    background:rgba(59,130,246,0.15);
+    border:1px solid rgba(59,130,246,0.5);
+    color:#60a5fa;
+    font-weight:800;
+    box-shadow:0 0 10px rgba(59,130,246,0.25);
+}
+
+.punish-box{
+    margin-top:10px;
+    padding:10px 14px;
+    border-radius:12px;
+    border:1px solid rgba(251,191,36,0.5);
+    background:rgba(251,191,36,0.08);
+    color:#fbbf24;
+    font-size:13px;
+    text-shadow:0 0 8px rgba(251,191,36,0.5);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+button {
+    animation: fadeUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+button:nth-child(1){animation-delay:0.05s;}
+button:nth-child(2){animation-delay:0.1s;}
+button:nth-child(3){animation-delay:0.15s;}
+button:nth-child(4){animation-delay:0.2s;}
+button:nth-child(5){animation-delay:0.25s;}
+button:nth-child(6){animation-delay:0.3s;}
+button:nth-child(7){animation-delay:0.35s;}
+button:nth-child(8){animation-delay:0.4s;}
+button:nth-child(9){animation-delay:0.45s;}
+button:nth-child(10){animation-delay:0.5s;}
+button:nth-child(11){animation-delay:0.55s;}
+button:nth-child(12){animation-delay:0.6s;}
+button:nth-child(13){animation-delay:0.65s;}
+button:nth-child(14){animation-delay:0.7s;}
+button:nth-child(15){animation-delay:0.75s;}
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="title">ПРАВИЛА KYIV RP</div>
+</div>
+
+<div class="container">
+    <div class="buttons">
+        <button onclick="openModal(0)">Загальні</button>
+        <button onclick="openModal(1)">Чат</button>
+        <button onclick="openModal(2)">Гра</button>
+        <button onclick="openModal(3)">Адмін</button>
+        <button onclick="openModal(4)">Торгівля</button>
+        <button onclick="openModal(5)">RP</button>
+        <button onclick="openModal(6)">Безпека</button>
+        <button onclick="openModal(7)">Будівництво</button>
+        <button onclick="openModal(8)">Івенти</button>
+        <button onclick="openModal(9)">Економіка</button>
+        <button onclick="openModal(10)">Персонал</button>
+        <button onclick="openModal(11)">Голос</button>
+        <button onclick="openModal(12)">Реклама</button>
+        <button onclick="openModal(13)">Поведінка</button>
+        <button onclick="openModal(14)">Різне</button>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="close" onclick="closeModal()">✖</div>
+        <div id="rules"></div>
+    </div>
+</div>
+
+<script>
+const punish = "💰 Штраф: 1000€ - 8000€ | ⛓ КПЗ: 10-60 хв | 🚫 Бан: 1-7 днів";
+
+const rules = [
+["1.1 Поважай гравців","1.2 Без образ","1.3 Без спаму","1.4 Без реклами","1.5 Без чітів","1.6 Слухай адмінів","1.7 Без погроз","1.8 Без токсичності","1.9 Грай чесно"],
+["2.1 Без флуду","2.2 Без капсу","2.3 Без матів","2.4 Без спаму","2.5 Без токсика","2.6 Без реклами","2.7 Поважай","2.8 Без провокацій","2.9 Чистий чат"],
+["3.1 Не багуй","3.2 Без скриптів","3.3 Без експлойтів","3.4 Чесна гра","3.5 Не заважай","3.6 Без читів","3.7 Баланс","3.8 Без аб’юзу","3.9 Поважай правила","3.10 Не ливай","3.11 Не фарм","3.12 Без афк","3.13 Без дюпу","3.14 Без обману","3.15 Чесність"],
+["4.1 Обов’язки","4.2 Без зловживань","4.3 Справедливість","4.4 Без фейк бан","4.5 Без корупції","4.6 Поважай","4.7 Рішення","4.8 Логи","4.9 Без фавору"],
+["5.1 Чесні угоди","5.2 Без скаму","5.3 Перевіряй","5.4 Без фейків","5.5 Без дюпу","5.6 Прозорість","5.7 Баланс","5.8 Без аб’юзу","5.9 Легально"],
+["6.1 RP режим","6.2 Без метагейму","6.3 Без RDM","6.4 Без VDM","6.5 Логіка","6.6 Без нонRP","6.7 Роль","6.8 Не ломи сцену","6.9 Реалізм"],
+["7.1 Без зломів","7.2 Без фішингу","7.3 Захист","7.4 2FA","7.5 Пароль","7.6 Без чит софту","7.7 Без витоків","7.8 Без крадіжок","7.9 Без хаків"],
+["8.1 Без лагів","8.2 Оптимізація","8.3 Ліміти","8.4 Чисті білди","8.5 Без крашів","8.6 Дозвіл","8.7 Зони","8.8 Без дюпу","8.9 Порядок"],
+["9.1 Чесні івенти","9.2 Без фейків"],
+["10.1 Баланс","10.2 Без інфляції"],
+["11.1 Дисципліна","11.2 Обов’язки"],
+["12.1 Без шуму","12.2 Без спаму"],
+["13.1 Заборонено","13.2 Без скаму"],
+["14.1 Поведінка","14.2 Без токсика"],
+["15.1 Загальні","15.2 Порядок"]
+];
+
+function openModal(i){
+    const m=document.getElementById('modal');
+    const r=document.getElementById('rules');
+    r.innerHTML='';
+
+    // lock background scroll
+    document.body.style.overflow='hidden';
+
+    rules[i].forEach(t=>{
+        let d=document.createElement('div');
+        d.className='rule';
+
+        const parts = t.split(' ');
+        const id = parts.shift();
+        const text = parts.join(' ');
+
+        d.innerHTML = `<span class='rule-id'>§${id}</span> ${text}<div class='punish-box'>${punish}</div>`;
+
+        r.appendChild(d);
+    });
+
+    m.style.display='flex';
+}
+
+function closeModal(){
+    document.getElementById('modal').style.display='none';
+    document.body.style.overflow='auto';
+}
+
+window.onclick=(e)=>{if(e.target.id==='modal') closeModal();}
+</script>
+
+</body>
+</html>
